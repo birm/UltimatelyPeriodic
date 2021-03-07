@@ -1,21 +1,31 @@
 class Automaton:
-    def __init__(Q,S,d,q0,T):
-        self.Q = Q # states
-        self.S = S # alphabet
+    def __init__(self, d, q0, F, inputs=False):
+        # self.Q = Q # states, !! I don't think I need this
+        # self.S = S # alphabet, !! I don't think I need this
         self.d = d # transition function
         self.q0 = q0 # initial state
-        self.T = T # accept
-        self.q = q0 # assign initial state
+        self.F = F # accept state check
+        self.q = [q0] # assign initial state
+        self.inputs = inputs
 
     def __repr__(self):
-        return self.q # I think we care about state in a repr?
+        return str(self.q[-1]) + ": n=" + str(len(self.q)-1) # I think we care about current state in a repr?
 
-class DFA(Automaton):
-    def __init__(*args):
-        self.type = "Deterministic"
-        super(*args)
+    def __iter__(self):
+        return self
 
-class NFA(Automaton):
-    def __init__(*args):
-        self.type = "Non-Deterministic"
-        super(*args)
+    def __next__(self):
+        n = len(self.q) - 1
+        if self.inputs:
+            self.q.append(self.d(self.q[-1], [i[n] for i in self.inputs]))
+        else:
+            self.q.append(self.d(self.q[-1]))
+        return self.q[-1]
+
+    def accept(self, n):
+        for i in range(n):
+            next(self)
+        return F(self.q[-1])
+
+    def reset(self):
+        pass
