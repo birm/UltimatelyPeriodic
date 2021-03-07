@@ -87,7 +87,7 @@ if __name__ == "__main__":
     withinput = Automaton.Automaton(transition1, 1, F1, inputs=[numbers])
 
     for i in range(100):
-        print(repr(next(withinput)))
+        next(withinput)
 
     # without loss of generality, pick I, P
     # iterate through N
@@ -103,7 +103,7 @@ if __name__ == "__main__":
         next(M1)
 
     # M2 runs in O(N**2)
-    print(len([x for x in makeM2(M1)]))
+    # print(len([x for x in makeM2(M1)]))
 
     # benchmark time!
     for j in range(0, 6):
