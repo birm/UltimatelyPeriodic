@@ -31,11 +31,28 @@ def pAdd(carry, i, n, k=10):
 
 
 
-def M1(DFAO, N,P):
+def makeM1(DFAO, I, N,P):
+    k = 10 # base
+    q0p = ("=", 0, DFAO.q0, DFAO.q0, I[0], N[0], P[0])
+
+    def Fp(state):
+        (b, c, q, r) = state
+        return not(b == "<" or q == r)
+
+    def delP(state, inputs):
+        (b, c, q, r) = state
+        i, n, p = inputs
+        b1 = u(b, i, n)
+        i1 = math.floor((i+p+c)/k)
+        q1 = DFAO.d(q, i)
+        r1 = DFAO.d(r, (i+p+c)%k)
+        return (b1, i1, q1, r1)
+
+    return Automaton.Automaton(delP, q0p, Fp, inputs=[I,N,P])
+
+def makeM2():
+    # powerset construction
     pass
 
-def M2():
-    pass
-
-def M3():
+def makeM3():
     pass
