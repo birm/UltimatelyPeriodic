@@ -1,7 +1,7 @@
 # UltimatelyPeriodic
-"Given a DFA it is decidable if the kautomatic sequence it generates is ultimately periodic."
+"Given a DFA it is decidable if the k-automatic sequence it generates is ultimately periodic."
 
 ## Publications
 - allouche.py is based on https://arxiv.org/pdf/0808.1657.pdf
 
-- leroux.py is based on https://hal.archives-ouvertes.fr/hal-00346307/document
+- honkala.py is based on http://www.numdam.org/article/ITA_1986__20_4_395_0.pdf
