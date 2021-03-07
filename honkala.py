@@ -75,8 +75,8 @@ if __name__ == "__main__":
         procedure(10, input, i)
 
     # benchmark time!
-    for j in range(0, 6):
-        m= 10**j
+    for j in range(0, 13):
+        m= 2**j
         start = time.process_time()
         numbers = range(1, int(m) + 1)
         # get dfao output as input
@@ -87,4 +87,4 @@ if __name__ == "__main__":
             input.append(q)
         for i in range(m):
             procedure(10, input, i)
-        print(m, time.process_time() - start)
+        print(m, ",",time.process_time() - start)
