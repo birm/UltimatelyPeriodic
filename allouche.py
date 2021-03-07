@@ -106,14 +106,14 @@ if __name__ == "__main__":
     print(len([x for x in makeM2(M1)]))
 
     # benchmark time!
-    for j in range(0, 7):
+    for j in range(0, 6):
         m= 10**j
         start = time.process_time()
-        I_g = padRep(100, m)
         N_g = padRep(23, m)
         P_g = padRep(8, m)
 
-        M1 = makeM1(k, withinput, I_g, N_g, P_g)
-        for i in range(m):
-            next(M1)
+        for j in range(m):
+            M1 = makeM1(k, withinput, padRep(j, m), N_g, P_g)
+            for i in range(m):
+                next(M1)
         print(m, time.process_time() - start)

@@ -75,7 +75,7 @@ if __name__ == "__main__":
         procedure(10, input, i)
 
     # benchmark time!
-    for j in range(0, 7):
+    for j in range(0, 6):
         m= 10**j
         start = time.process_time()
         numbers = range(1, int(m) + 1)
