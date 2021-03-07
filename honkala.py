@@ -34,21 +34,22 @@ def stringylam(k, w):
     # coerce into base k (careful!)
     return "//".join([str(x%k) for x in w])
 
-# for our purposes,
 
 def procedure(k, input, I):
     index = input[:I]
     period = input[I:]
     # is it periodic?
     for i in range(1, len(period)-1):
-        working = stringylam(k, period)
+        # ignore "overflow" for finite case
         match = stringylam(k,period[:i])
+        idx = len(period) - (len(period) % len(match))
+        working = stringylam(k, period)[:idx]
         # use string replace to check periodicity of given order
         if len(working.replace(match, "").replace("//", "")) == 0:
             return i # this is a minimal period given index I
     return False # failed for I
 
 # test
-input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 7, 8, 9, 7, 8, 9]
+input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 7, 8, 9, 7, 8, 9, 7]
 stringylam(10, input)
 procedure(10, input, 6)
