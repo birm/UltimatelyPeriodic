@@ -1,5 +1,11 @@
 import math # for floor
 import Automaton # automation representation
+from itertools import chain, combinations
+
+"""
+Procedure in a nutshell: create an automata around the given automata,
+use powerset construction, use this to determine periodicity
+"""
 
 # for M1 construction
 
@@ -50,9 +56,7 @@ def makeM1(DFAO, I, N,P):
 
     return Automaton.Automaton(delP, q0p, Fp, inputs=[I,N,P])
 
-def makeM2():
-    # powerset construction
-    pass
-
-def makeM3():
-    pass
+def makeM2(M1):
+    # powerset construction, ref https://docs.python.org/3/library/itertools.html#itertools-recipes
+    s = list(M1.q)
+    return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
