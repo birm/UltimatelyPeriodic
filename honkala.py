@@ -49,7 +49,9 @@ def procedure(k, input, I):
             return i # this is a minimal period given index I
     return False # failed for I
 
-# test
-input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 7, 8, 9, 7, 8, 9, 7]
-stringylam(10, input)
-procedure(10, input, 6)
+# test by running python honkala.py from this dir
+
+if __name__ == "__main__":
+    input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 7, 8, 9, 7, 8, 9, 7]
+    stringylam(10, input)
+    procedure(10, input, 6)

@@ -35,11 +35,17 @@ def pAdd(carry, i, n, k=10):
         carry = 1
     return (carry, temp)
 
+# padded representation
+def padRep(value, target_length, k=10):
+    res = []
+    while value>=1 :
+        res.append(value % k)
+        value -= (value %k)
+        value = value / k
+    return res + [0] * (target_length - len(res))
 
-
-def makeM1(DFAO, I, N,P):
-    k = 10 # base
-    q0p = ("=", 0, DFAO.q0, DFAO.q0, I[0], N[0], P[0])
+def makeM1(k, DFAO, I, N,P):
+    q0p = ("=", 0, DFAO.q0, DFAO.q0)
 
     def Fp(state):
         (b, c, q, r) = state
@@ -50,13 +56,48 @@ def makeM1(DFAO, I, N,P):
         i, n, p = inputs
         b1 = u(b, i, n)
         i1 = math.floor((i+p+c)/k)
-        q1 = DFAO.d(q, i)
-        r1 = DFAO.d(r, (i+p+c)%k)
+        q1 = DFAO.d(q, [i])
+        r1 = DFAO.d(r, [(i+p+c)%k])
         return (b1, i1, q1, r1)
 
     return Automaton.Automaton(delP, q0p, Fp, inputs=[I,N,P])
 
 def makeM2(M1):
-    # powerset construction, ref https://docs.python.org/3/library/itertools.html#itertools-recipes
+    # powerset construction on states, ref python docs https://docs.python.org/3/library/itertools.html
     s = list(M1.q)
     return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
+
+# test by running python allouche.py from this dir
+
+if __name__ == "__main__":
+
+    k = 10
+    # UltimatelyPeriodic, for our test
+    def transition1(q, i):
+        return (((i[0] % 123) * (q % 131)) + (i[0] % 123))%k
+
+    def F1(q):
+        return True
+
+    m = 1e6
+
+    numbers = range(1, int(m))
+
+    withinput = Automaton.Automaton(transition1, 1, F1, inputs=[numbers])
+
+    for i in range(100):
+        print(repr(next(withinput)))
+
+    # without loss of generality, pick I , N, P
+    ## FUTURE WORK - use a representation that can work backwards from this
+    m = 100
+    I_g = padRep(100, m)
+    N_g = padRep(23, m)
+    P_g = padRep(8, m)
+
+    M1 = makeM1(k, withinput, I_g, N_g, P_g)
+
+    for i in range(100):
+        next(M1)
+
+    print(len([x for x in makeM2(M1)]))
