@@ -1,6 +1,7 @@
 import math # for floor
 import Automaton # automation representation
 from itertools import chain, combinations
+import time # for benchmark
 
 """
 Procedure in a nutshell: create an automata around the given automata,
@@ -72,7 +73,7 @@ def makeM2(M1):
 if __name__ == "__main__":
 
     k = 10
-    # UltimatelyPeriodic, for our test
+    # Ultimately Periodic, for our test
     def transition1(q, i):
         return (((i[0] % 123) * (q % 131)) + (i[0] % 123))%k
 
@@ -81,23 +82,38 @@ if __name__ == "__main__":
 
     m = 1e6
 
-    numbers = range(1, int(m))
+    numbers = range(1, int(m) + 1)
 
     withinput = Automaton.Automaton(transition1, 1, F1, inputs=[numbers])
 
     for i in range(100):
         print(repr(next(withinput)))
 
-    # without loss of generality, pick I , N, P
+    # without loss of generality, pick I, P
+    # iterate through N
     ## FUTURE WORK - use a representation that can work backwards from this
-    m = 100
+    m = 16
     I_g = padRep(100, m)
     N_g = padRep(23, m)
     P_g = padRep(8, m)
 
     M1 = makeM1(k, withinput, I_g, N_g, P_g)
 
-    for i in range(100):
+    for i in range(m):
         next(M1)
 
+    # M2 runs in O(N**2)
     print(len([x for x in makeM2(M1)]))
+
+    # benchmark time!
+    for j in range(0, 7):
+        m= 10**j
+        start = time.process_time()
+        I_g = padRep(100, m)
+        N_g = padRep(23, m)
+        P_g = padRep(8, m)
+
+        M1 = makeM1(k, withinput, I_g, N_g, P_g)
+        for i in range(m):
+            next(M1)
+        print(m, time.process_time() - start)

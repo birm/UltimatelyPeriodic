@@ -1,3 +1,4 @@
+import time # for benchmark
 """
 No noted implementation guidance beyond brute force-finding index.
 
@@ -39,13 +40,14 @@ def procedure(k, input, I):
     index = input[:I]
     period = input[I:]
     # is it periodic?
-    for i in range(1, len(period)-1):
+    for i in range(1, int(I/2) + 1):
         # ignore "overflow" for finite case
         match = stringylam(k,period[:i])
-        idx = len(period) - (len(period) % len(match))
-        working = stringylam(k, period)[:idx]
+        idx = len(period) - (len(period) % i)
+        working = stringylam(k, period[:idx])
         # use string replace to check periodicity of given order
         if len(working.replace(match, "").replace("//", "")) == 0:
+            pass
             return i # this is a minimal period given index I
     return False # failed for I
 
@@ -54,4 +56,35 @@ def procedure(k, input, I):
 if __name__ == "__main__":
     input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 7, 8, 9, 7, 8, 9, 7]
     stringylam(10, input)
-    procedure(10, input, 6)
+
+    m = 16
+
+    def transition1(q, i, k=10):
+        return (((i[0] % 123) * (q % 131)) + (i[0] % 123))%k
+
+    numbers = range(1, int(m) + 1)
+
+    # get input
+    input = []
+    q = 1
+    for i in range(m):
+        q = transition1(q, [numbers[i]])
+        input.append(q)
+
+    for i in range(m):
+        procedure(10, input, i)
+
+    # benchmark time!
+    for j in range(0, 7):
+        m= 10**j
+        start = time.process_time()
+        numbers = range(1, int(m) + 1)
+        # get dfao output as input
+        input = []
+        q = 1
+        for i in range(m):
+            q = transition1(q, [numbers[i]])
+            input.append(q)
+        for i in range(m):
+            procedure(10, input, i)
+        print(m, time.process_time() - start)
