@@ -63,10 +63,21 @@ def makeM1(k, DFAO, I, N,P):
 
     return Automaton.Automaton(delP, q0p, Fp, inputs=[I,N,P])
 
-def makeM2(M1):
-    # powerset construction on states, ref python docs https://docs.python.org/3/library/itertools.html
-    s = list(M1.q)
-    return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
+def makeM2(M1, k=10):
+    # subset construction
+    res = []
+    for j in range(len(M1.q)):
+        N = M1.inputs[1]
+        P = M1.inputs[2]
+        state = M1.q[j]
+        tmp = []
+        # follow possible inputs for each state's i, n, and p values
+        for i1 in range(k):
+            for i2 in range(k):
+                for i3 in range(k):
+                    tmp.append(M1.d(state, (i1, i2, i3)))
+        res.append(set(tmp))
+    return res
 
 # test by running python allouche.py from this dir
 
@@ -111,9 +122,9 @@ if __name__ == "__main__":
         start = time.process_time()
         N_g = padRep(23, m)
         P_g = padRep(8, m)
-
-        for j in range(m):
-            M1 = makeM1(k, withinput, padRep(j, m), N_g, P_g)
-            for i in range(m):
-                next(M1)
+        I_g = padRep(1, m)
+        M1 = makeM1(k, withinput, I_g, N_g, P_g)
+        for i in range(m):
+            next(M1)
+        makeM2(M1)
         print(m, ",",time.process_time() - start)
