@@ -71,11 +71,14 @@ def makeM2(M1, k=10):
         P = M1.inputs[2]
         state = M1.q[j]
         tmp = []
+        prev_states = [M1.q[j]]
         # follow possible inputs for each state's i, n, and p values
         for i1 in range(k):
             for i2 in range(k):
                 for i3 in range(k):
-                    tmp.append(M1.d(state, (i1, i2, i3)))
+                        for s in prev_states:
+                            tmp.append(M1.d(s, (i1, i2, i3)))
+        prev_states = set(tmp)
         res.append(set(tmp))
     return res
 
