@@ -89,7 +89,8 @@ if __name__ == "__main__":
     k = 10
     # Ultimately Periodic, for our test
     def transition1(q, i):
-        return (((i[0] % 123) * (q % 131)) + (i[0] % 123))%k
+        # return (((i[0] % 123) * (q % 131)) + (i[0] % 123))%k # for simpler case
+        return ((((i[0] % 2473)+1) * (q % 3847)))%k + 1
 
     def F1(q):
         return True
@@ -120,7 +121,7 @@ if __name__ == "__main__":
     # print(len([x for x in makeM2(M1)]))
 
     # benchmark time!
-    for j in range(0, 13):
+    for j in range(0, 22):
         m= 2**j
         start = time.process_time()
         N_g = padRep(23, m)

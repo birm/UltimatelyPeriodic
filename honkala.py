@@ -60,7 +60,8 @@ if __name__ == "__main__":
     m = 16
 
     def transition1(q, i, k=10):
-        return (((i[0] % 123) * (q % 131)) + (i[0] % 123))%k
+        # return (((i[0] % 123) * (q % 131)) + (i[0] % 123))%k
+        return ((((i[0] % 2473)+1) * (q % 3847)))%k + 1
 
     numbers = range(1, int(m) + 1)
 
@@ -75,8 +76,8 @@ if __name__ == "__main__":
         procedure(10, input, i)
 
     # benchmark time!
-    for j in range(0, 13):
-        m= 2**j
+    for j in range(13, 22):
+        m = 2**j
         start = time.process_time()
         numbers = range(1, int(m) + 1)
         # get dfao output as input
@@ -87,4 +88,6 @@ if __name__ == "__main__":
             input.append(q)
         for i in range(m):
             procedure(10, input, i)
+            if (i%200==0):
+                print(i, time.process_time() - start)
         print(m, ",",time.process_time() - start)
