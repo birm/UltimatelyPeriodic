@@ -121,8 +121,8 @@ if __name__ == "__main__":
     # print(len([x for x in makeM2(M1)]))
 
     # benchmark time!
-    for j in range(0, 22):
-        m= 2**j
+    for j in range(17, 50):
+        m = 2**j
         start = time.process_time()
         N_g = padRep(23, m)
         P_g = padRep(8, m)
@@ -131,4 +131,4 @@ if __name__ == "__main__":
         for i in range(m):
             next(M1)
         makeM2(M1)
-        print(m, ",",time.process_time() - start)
+        print("*", m, ",",time.process_time() - start)
