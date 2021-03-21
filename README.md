@@ -1,4 +1,6 @@
 # UltimatelyPeriodic
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4625201.svg)](https://doi.org/10.5281/zenodo.4625201)
+
 "Given a DFA it is decidable if the k-automatic sequence it generates is ultimately periodic."
 
 ## Publications
