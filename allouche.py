@@ -66,17 +66,17 @@ def makeM1(k, DFAO, I, N,P):
 def makeM2(M1, k=10):
     # subset construction
     res = []
-    for j in range(len(M1.q)):
+    for j in range(len(M1.q)): # O(m)
         N = M1.inputs[1]
         P = M1.inputs[2]
         state = M1.q[j]
         tmp = []
         prev_states = set([M1.q[j]])
         # follow possible inputs for each state's i, n, and p values
-        for i1 in range(k):
-            for i2 in range(k):
-                for i3 in range(k):
-                        for s in prev_states:
+        for i1 in range(k): # see below for complexity for these lines
+            for i2 in range(k): # see below for complexity for these lines
+                for i3 in range(k): # O(k^3), but k is constant, so O(1) wrt m
+                        for s in prev_states: # best case O(m), O(m^2)
                             tmp.append(M1.d(s, (i1, i2, i3)))
         prev_states |= set(tmp)
         res.append(set(tmp))
@@ -127,8 +127,8 @@ if __name__ == "__main__":
         N_g = padRep(23, m)
         P_g = padRep(8, m)
         I_g = padRep(1, m)
-        M1 = makeM1(k, withinput, I_g, N_g, P_g)
-        for i in range(m):
-            next(M1)
-        makeM2(M1)
+        M1 = makeM1(k, withinput, I_g, N_g, P_g) # representation, O(1)
+        for i in range(m): # O(m)
+            next(M1) #O(1)
+        makeM2(M1) # best case O(m), worst case O(m^2)
         print("*", m, ",",time.process_time() - start)

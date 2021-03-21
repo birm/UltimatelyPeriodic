@@ -40,13 +40,13 @@ def procedure(k, input, I):
     index = input[:I]
     period = input[I:]
     # is it periodic?
-    for i in range(1, int(I/2) + 1):
+    for i in range(1, int(I/2) + 1): # O(m)
         # ignore "overflow" for finite case
         match = stringylam(k,period[:i])
         idx = len(period) - (len(period) % i)
         working = stringylam(k, period[:idx])
         # use string replace to check periodicity of given order
-        if len(working.replace(match, "").replace("//", "")) == 0:
+        if len(working.replace(match, "").replace("//", "")) == 0: # O(m^2)
             pass
             return i # this is a minimal period given index I
     return False # failed for I
@@ -83,9 +83,9 @@ if __name__ == "__main__":
         # get dfao output as input
         input = []
         q = 1
-        for i in range(m):
+        for i in range(m): # O(m)
             q = transition1(q, [numbers[i]])
             input.append(q)
-        for i in range(m):
-            procedure(10, input, i)
+        for i in range(m): # O(m)
+            procedure(10, input, i) # O(m^3)
         print("*", m, ",",time.process_time() - start)
