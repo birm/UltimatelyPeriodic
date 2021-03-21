@@ -28,4 +28,4 @@ class Automaton:
         return F(self.q[-1])
 
     def reset(self):
-        pass
+        self.q = [self.q0]
